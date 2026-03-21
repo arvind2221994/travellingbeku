@@ -10,7 +10,7 @@ export function Header() {
             <Compass size={16} className="text-white" />
           </div>
           <span className="text-base font-bold tracking-tight text-white">
-            Travelling<span className="text-orange-400">Beku</span>
+            Traveling<span className="text-orange-400">Beku</span>
           </span>
         </Link>
 

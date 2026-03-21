@@ -51,7 +51,7 @@ export function HeroSection() {
           </Link>
           <Link
             href="#tools"
-            className="px-8 py-3.5 rounded-xl border border-white/10 text-neutral-300 hover:text-white hover:border-white/20 text-sm font-medium transition-colors"
+            className="px-8 py-3.5 rounded-xl bg-brand-dark hover:bg-brand-dark/90 text-white text-sm font-semibold transition-all duration-200 active:scale-95 shadow-sm"
           >
             Explore Tools
           </Link>
