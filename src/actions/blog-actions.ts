@@ -1,0 +1,81 @@
+"use server";
+
+import { v4 as uuidv4 } from "uuid";
+import {
+  upsertPost,
+  deletePost,
+  uploadCoverImage,
+  getPostById,
+} from "@/lib/r2";
+import { slugify, stripHtml } from "@/lib/utils";
+import type { BlogPost } from "@/types";
+import { revalidatePath } from "next/cache";
+import { auth } from "@/lib/auth";
+
+/** Guard helper — throws if not authenticated */
+async function requireAdmin() {
+  const session = await auth();
+  if (!session?.user) throw new Error("Unauthorized");
+}
+
+// ─── Create / Update ─────────────────────────────────────────────────────────
+
+export async function saveBlogPost(formData: FormData) {
+  await requireAdmin();
+
+  const id = (formData.get("id") as string) || uuidv4();
+  const title = formData.get("title") as string;
+  const rawSlug = formData.get("slug") as string;
+  const slug = rawSlug ? slugify(rawSlug) : slugify(title);
+  const content = formData.get("content") as string;
+  const excerpt =
+    (formData.get("excerpt") as string) || stripHtml(content, 160);
+  const categoriesRaw = formData.get("categories") as string;
+  const categories = categoriesRaw
+    ? categoriesRaw.split(",").map((c) => c.trim()).filter(Boolean)
+    : [];
+  const published = formData.get("published") === "true";
+
+  // Fetch existing post (if editing) for image_url fallback
+  const existing = await getPostById(id);
+  let image_url = existing?.image_url ?? "";
+
+  // Handle cover image upload
+  const coverFile = formData.get("coverFile") as File | null;
+  if (coverFile && coverFile.size > 0) {
+    const buffer = Buffer.from(await coverFile.arrayBuffer());
+    image_url = await uploadCoverImage(slug, buffer, coverFile.type);
+  }
+
+  const now = new Date().toISOString();
+  const post: BlogPost = {
+    id,
+    slug,
+    title,
+    excerpt,
+    content,
+    image_url,
+    categories,
+    published,
+    created_at: existing?.created_at ?? now,
+    updated_at: now,
+  };
+
+  await upsertPost(post);
+
+  revalidatePath("/blogs");
+  revalidatePath(`/blogs/${slug}`);
+  revalidatePath("/admin");
+
+  return { ok: true, slug };
+}
+
+// ─── Delete ───────────────────────────────────────────────────────────────────
+
+export async function deleteBlogPost(id: string) {
+  await requireAdmin();
+  const result = await deletePost(id);
+  revalidatePath("/blogs");
+  revalidatePath("/admin");
+  return { ok: result };
+}
