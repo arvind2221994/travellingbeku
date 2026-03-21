@@ -6,9 +6,8 @@ import { useRouter } from "next/navigation";
 import { Compass, Loader2, Lock } from "lucide-react";
 
 /**
- * Hidden login page — not linked from anywhere publicly.
- * The admin route returns 404 to unauthenticated users,
- * this page is only reachable by those who know the URL.
+ * Admin login page — not linked from anywhere publicly.
+ * Unauthenticated requests to /admin are redirected here.
  */
 export default function LoginPage() {
   const router = useRouter();
@@ -21,15 +20,23 @@ export default function LoginPage() {
     const fd = new FormData(e.currentTarget);
 
     startTransition(async () => {
-      const res = await signIn("credentials", {
-        username: fd.get("username"),
-        password: fd.get("password"),
-        redirect: false,
-      });
-      if (res?.error) {
-        setError("Invalid credentials. Try again.");
-      } else {
-        router.push("/admin");
+      try {
+        const res = await signIn("credentials", {
+          username: fd.get("username") as string,
+          password: fd.get("password") as string,
+          redirect: false,
+        });
+
+        if (res?.error) {
+          setError("Invalid credentials. Please double-check and try again.");
+        } else if (res?.ok) {
+          router.push("/admin");
+        } else {
+          setError("An unexpected error occurred. Please try again.");
+        }
+      } catch (err) {
+        console.error("Login error:", err);
+        setError("Network error. Please try again later.");
       }
     });
   };
@@ -53,7 +60,7 @@ export default function LoginPage() {
           </div>
           <h1 className="text-lg font-bold text-white">Admin Access</h1>
           <p className="text-xs text-neutral-500 mt-1">
-            TravellingBeku CMS
+            TravelingBeku CMS
           </p>
         </div>
 

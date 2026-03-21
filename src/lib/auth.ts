@@ -33,7 +33,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         }
 
         if (username === validUser && password === validPass) {
-          return { id: "admin", name: "Admin", email: "admin@travellingbeku.com" };
+          return { id: "admin", name: "Admin", email: "admin@travelingbeku.com" };
         }
 
         return null;
@@ -42,7 +42,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   ],
   pages: {
     // NOTE: signIn page exists but is NOT linked from anywhere publicly.
-    // The admin route returns 404 to unauthenticated users (see middleware).
+    // Unauthenticated requests to /admin are redirected here via layout.tsx
     signIn: "/login",
   },
   session: {

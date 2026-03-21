@@ -9,8 +9,7 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }) {
   const session = await auth();
-  // Middleware already returns 404 for unauthenticated users,
-  // but double-check here for any edge cases
+  
   if (!session?.user) redirect("/login");
 
   return (

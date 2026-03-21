@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "build:worker": "next build && node_modules/.bin/opennextjs-cloudflare build",
-    "preview": "node_modules/.bin/opennextjs-cloudflare preview",
+    "build:worker": "next build && npx opennextjs-cloudflare build",
+    "preview": "npx opennextjs-cloudflare preview",
     "deploy": "npm run build:worker && wrangler deploy",
     "cf-typegen": "wrangler types"
   },
@@ -24,10 +24,10 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.577.0",
-    "next": "16.2.0",
+    "next": "15.1.7",
     "next-auth": "^5.0.0-beta.30",
-    "react": "19.2.4",
-    "react-dom": "19.2.4",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
     "tailwind-merge": "^3.5.0",
     "uuid": "^13.0.0"
   },
@@ -38,7 +38,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.2.0",
+    "eslint-config-next": "15.1.7",
     "tailwindcss": "^4",
     "typescript": "^5",
     "wrangler": "^4.76.0"

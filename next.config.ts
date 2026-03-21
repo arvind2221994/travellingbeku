@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
       {
         // Cloudflare custom domain for R2 — update with your actual domain
         protocol: "https",
-        hostname: "cdn.travellingbeku.com",
+        hostname: "cdn.travelingbeku.com",
         pathname: "/**",
       },
     ],

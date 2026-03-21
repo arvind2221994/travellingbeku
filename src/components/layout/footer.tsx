@@ -16,7 +16,7 @@ export function Footer() {
           </Link>
 
           <p className="text-xs text-neutral-600">
-            © {new Date().getFullYear()} TravellingBeku. All rights reserved.
+            © {new Date().getFullYear()} TravelingBeku. All rights reserved.
           </p>
 
           <div className="flex items-center gap-4">

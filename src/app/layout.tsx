@@ -12,16 +12,16 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "TravellingBeku — Adventure Awaits",
-    template: "%s | TravellingBeku",
+    default: "TravelingBeku — Adventure Awaits",
+    template: "%s | TravelingBeku",
   },
   description:
-    "Discover breathtaking travel stories, tips, and guides from around the world. TravellingBeku — your companion for every journey.",
+    "Discover breathtaking travel stories, tips, and guides from around the world. TravelingBeku — your companion for every journey.",
   keywords: ["travel", "blog", "adventure", "backpacking", "travel tips"],
-  authors: [{ name: "TravellingBeku" }],
+  authors: [{ name: "TravelingBeku" }],
   openGraph: {
     type: "website",
-    siteName: "TravellingBeku",
+    siteName: "TravelingBeku",
     locale: "en_US",
   },
 };

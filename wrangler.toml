@@ -31,6 +31,7 @@ bucket_name = "travellingbeku-content"
 
 [vars]
 NEXT_PUBLIC_SITE_URL = "https://travellingbeku.pages.dev"
+AUTH_TRUST_HOST = "true"
 
 # ── Local dev bindings (wrangler dev) ───────────────────
 [[env.development.r2_buckets]]

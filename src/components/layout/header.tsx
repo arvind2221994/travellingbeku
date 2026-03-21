@@ -28,6 +28,12 @@ export function Header() {
             Blog
           </Link>
           <Link
+            href="/login"
+            className="text-sm text-neutral-400 hover:text-white transition-colors"
+          >
+            Login
+          </Link>
+          <Link
             href="/blogs"
             className="text-sm px-4 py-2 rounded-lg bg-orange-500/10 text-orange-400 border border-orange-500/20 hover:bg-orange-500/20 transition-colors font-medium"
           >

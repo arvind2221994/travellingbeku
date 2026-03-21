@@ -1,18 +1,43 @@
 @import "tailwindcss";
 
+@theme {
+  /* 🇬🇷 Santorini/Aegean Theme Colors */
+  --color-brand: #0077b6;
+  --color-brand-light: #48cae4;
+  --color-brand-dark: #03045e;
+  
+  /* Brand-mappings: Swap existing oranges for Santorini blues */
+  --color-orange-400: #48cae4;
+  --color-orange-500: #0077b6;
+  --color-orange-600: #023e8a;
+  
+  /* Surface-mappings: Swap dark neutrals for clean white/light surfaces */
+  --color-neutral-950: #ffffff;
+  --color-neutral-900: #f8fafc;
+  --color-neutral-800: #f1f5f9;
+  
+  /* Text-mappings: Adjust muted colors for dark text on white */
+  --color-neutral-400: #94a3b8;
+  --color-neutral-500: #64748b;
+  --color-neutral-600: #475569;
+  
+  /* CTA specific color */
+  --color-cta: #03045e;
+}
+
 /* ── CSS Custom Properties ─────────────────────────────────── */
 :root {
-  --color-brand:        #f97316;   /* orange-500 */
-  --color-brand-dim:    #ea580c;   /* orange-600 */
-  --color-surface:      #0a0a0a;
-  --color-surface-1:    #111111;
-  --color-surface-2:    #1a1a1a;
-  --color-border:       rgba(255,255,255,0.08);
-  --color-text:         #f5f5f5;
-  --color-text-muted:   #a3a3a3;
+  --color-brand:        #0077b6;   /* Santorini Domes Blue */
+  --color-brand-dim:    #03045e;   /* Aegean Deep Navy */
+  --color-surface:      #ffffff;   /* Pure White Greek Buildings */
+  --color-surface-1:    #f8fafc;   /* Soft slate surfaces */
+  --color-surface-2:    #f1f5f9;
+  --color-border:       rgba(0,0,0,0.06); 
+  --color-text:         #111827;   /* Slate 900 */
+  --color-text-muted:   #64748b;   /* Slate 500 */
   --font-sans:          var(--font-inter), system-ui, sans-serif;
   --radius-card:        1rem;
-  --shadow-glow:        0 0 40px rgba(249,115,22,0.15);
+  --shadow-glow:        0 0 40px rgba(0,119,182,0.12);
 }
 
 /* ── Base ──────────────────────────────────────────────────── */
@@ -29,6 +54,29 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* ── Global Theme Inversion Fixes ───────────────────────────── */
+
+/* Fix white text that is now invisible on white backgrounds, except inside blue elements */
+.text-white:not(
+  button *, 
+  [class*="bg-orange-"] *, 
+  [class*="bg-brand-"] *, 
+  [class*="bg-blue-"] *,
+  .bg-orange-500,
+  .bg-brand
+) {
+  color: #03045e !important; /* Force to Dark Blue CTA color */
+}
+
+/* Fix borders that were designed for dark mode */
+[class*="border-white/"] {
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Fix neutral backgrounds that should now be light */
+.bg-neutral-950 { background-color: #ffffff !important; }
+.bg-neutral-900 { background-color: #f8fafc !important; }
+
 /* ── Scrollbar ─────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--color-surface-1); }
@@ -39,21 +87,22 @@ body {
 
 /* ── Selection ─────────────────────────────────────────────── */
 ::selection {
-  background: rgba(249,115,22,0.35);
-  color: #fff;
+  background: rgba(0,119,182,0.2);
+  color: #03045e;
 }
 
-/* ── Glass card utility ────────────────────────────────────── */
+/* ── Glass card utility (Adjusted for Santorini light theme) ───────────────── */
 .glass {
-  background: rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.8) !important;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-border) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 119, 182, 0.05) !important;
 }
 
-/* ── Gradient text utility ─────────────────────────────────── */
+/* ── Gradient text utility (Santorini Blue Gradient) ─────────────────── */
 .gradient-text {
-  background: linear-gradient(135deg, #f97316 0%, #fb923c 50%, #fdba74 100%);
+  background: linear-gradient(135deg, #0077b6 0%, #0096c7 50%, #48cae4 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -64,14 +113,14 @@ body {
 
 /* ── Prose for blog content ────────────────────────────────── */
 .prose-blog {
-  --tw-prose-body:          #d4d4d4;
-  --tw-prose-headings:      #f5f5f5;
-  --tw-prose-links:         #f97316;
-  --tw-prose-code:          #fb923c;
-  --tw-prose-pre-bg:        #1a1a1a;
-  --tw-prose-hr:            rgba(255,255,255,0.1);
-  --tw-prose-quotes:        #a3a3a3;
-  --tw-prose-quote-borders: #f97316;
+  --tw-prose-body:          #374151;
+  --tw-prose-headings:      #03045e; /* Santorini Dark Blue */
+  --tw-prose-links:         #0077b6; /* Aegean Blue */
+  --tw-prose-code:          #03045e;
+  --tw-prose-pre-bg:        #f1f5f9;
+  --tw-prose-hr:            rgba(0,0,0,0.1);
+  --tw-prose-quotes:        #64748b;
+  --tw-prose-quote-borders: #0077b6;
 }
 .prose-blog h1,
 .prose-blog h2,
@@ -98,7 +147,7 @@ body {
 }
 .tiptap-editor .ProseMirror h1,
 .tiptap-editor .ProseMirror h2,
-.tiptap-editor .ProseMirror h3 { font-weight: 700; margin-top: 1.5rem; }
+.tiptap-editor .ProseMirror h3 { font-weight: 700; margin-top: 1.5rem; color: #03045e; }
 .tiptap-editor .ProseMirror h1 { font-size: 2rem; }
 .tiptap-editor .ProseMirror h2 { font-size: 1.5rem; }
 .tiptap-editor .ProseMirror h3 { font-size: 1.25rem; }
@@ -113,7 +162,7 @@ body {
   padding: 0.1em 0.4em;
   border-radius: 4px;
   font-size: 0.875em;
-  color: #fb923c;
+  color: #03045e;
 }
 .tiptap-editor .ProseMirror img {
   max-width: 100%;
