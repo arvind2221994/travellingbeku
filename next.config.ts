@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   // SSR on Cloudflare Workers via @opennextjs/cloudflare
   // Do NOT use output: 'export' — we need SSR for R2 data fetching
-
+  runtime: 'edge',
   images: {
     // Allow R2 public bucket URL for next/image
     remotePatterns: [
@@ -13,17 +13,32 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       },
       {
-        // Cloudflare custom domain for R2 — update with your actual domain
         protocol: "https",
         hostname: "cdn.travelingbeku.com",
         pathname: "/**",
       },
     ],
   },
-
   // Required for Cloudflare Workers compatibility
   experimental: {
-    // Edge runtime compatible for middleware
+    serverActions: {
+      allowedOrigins: ["127.0.0.1:8787", "localhost:8787", "travelingbeku.com", "www.travelingbeku.com"],
+      bodySizeLimit: "10mb",
+    },
+  },
+  // 2. Kill the 'fs' dependency at the bundler level
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false,
+        os: false,
+        net: false,
+        tls: false,
+      };
+    }
+    return config;
   },
 };
 

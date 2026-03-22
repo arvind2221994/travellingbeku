@@ -11,7 +11,7 @@ export function Footer() {
               <Logo className="text-white" />
             </div>
             <span className="text-sm font-bold text-white">
-              Travelling<span className="text-orange-400">Beku</span>
+              Traveling<span className="text-orange-400">Beku</span>
             </span>
           </Link>
 

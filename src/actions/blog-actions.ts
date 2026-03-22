@@ -1,6 +1,5 @@
 "use server";
-
-import { v4 as uuidv4 } from "uuid";
+//export const runtime = "edge";
 import {
   upsertPost,
   deletePost,
@@ -9,7 +8,6 @@ import {
 } from "@/lib/r2";
 import { slugify, stripHtml } from "@/lib/utils";
 import type { BlogPost } from "@/types";
-import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 
 /** Guard helper — throws if not authenticated */
@@ -23,7 +21,7 @@ async function requireAdmin() {
 export async function saveBlogPost(formData: FormData) {
   await requireAdmin();
 
-  const id = (formData.get("id") as string) || uuidv4();
+  const id = (formData.get("id") as string) || crypto.randomUUID();
   const title = formData.get("title") as string;
   const rawSlug = formData.get("slug") as string;
   const slug = rawSlug ? slugify(rawSlug) : slugify(title);
@@ -62,20 +60,15 @@ export async function saveBlogPost(formData: FormData) {
   };
 
   await upsertPost(post);
-
-  revalidatePath("/blogs");
-  revalidatePath(`/blogs/${slug}`);
-  revalidatePath("/admin");
-
   return { ok: true, slug };
 }
+
+
 
 // ─── Delete ───────────────────────────────────────────────────────────────────
 
 export async function deleteBlogPost(id: string) {
   await requireAdmin();
   const result = await deletePost(id);
-  revalidatePath("/blogs");
-  revalidatePath("/admin");
   return { ok: result };
 }

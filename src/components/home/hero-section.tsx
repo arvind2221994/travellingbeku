@@ -33,7 +33,7 @@ export function HeroSection() {
         {/* Headline */}
         <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white mb-6 leading-[1.1]">
           <span className="gradient-text">EXPLORE.</span>{" "}
-          The world isn't a feed.
+          <p>The world isn't a feed.</p>
         </h1>
 
         <p className="text-lg sm:text-xl text-neutral-400 max-w-2xl mx-auto mb-10 leading-relaxed">

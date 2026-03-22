@@ -9,6 +9,7 @@
     "lint": "eslint",
     "build:worker": "next build && npx opennextjs-cloudflare build",
     "preview": "npx opennextjs-cloudflare preview",
+    "dev:worker": "npm run build:worker && wrangler dev --remote",
     "deploy": "npm run build:worker && wrangler deploy",
     "cf-typegen": "wrangler types"
   },
